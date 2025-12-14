@@ -21,6 +21,27 @@ std::vector<Token> Lexer::lex() {
       tokens.push_back(lex_number());
       continue;
     }
+    
+    // 2 - Symbols
+    TokenKind kind = TokenKind::Invalid;
+    switch(c) {
+      case '+': kind = TokenKind::Plus; break;
+      case '-': kind = TokenKind::Minus; break;
+      default: break;
+    }
+    
+    advance();
+    SourceLoc end = curr_loc;
+    std::string lexeme(
+      input.substr(start.offset, end.offset - start.offset)
+    );
+
+    tokens.push_back(Token{
+      kind,
+      std::move(lexeme),
+      start,
+      end
+    });
 
 
   }
